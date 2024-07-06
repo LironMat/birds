@@ -33,16 +33,18 @@ public class BirdsGame
 
         for (int birdIndex = 0; birdIndex < birds.Count; birdIndex++)
         {
-            var randomBranch = _branches[_random.Next(BranchCount)];
+            var bird = birds[birdIndex];
+            int randomBranchIndex = _random.Next(BranchCount);
+            var randomBranch = _branches[randomBranchIndex];
             var firstFreeSpace = Array.FindIndex(randomBranch, b => b is null);
 
-            if (firstFreeSpace == -1)
+            if (firstFreeSpace == -1 || (GetSameOnBranchFromEnd(randomBranchIndex, bird) == randomBranch.Length))
             {
                 birdIndex--;
             }
             else
             {
-                randomBranch[firstFreeSpace] = birds[birdIndex];
+                randomBranch[firstFreeSpace] = bird;
             }
         }
     }

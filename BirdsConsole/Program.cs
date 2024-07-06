@@ -11,6 +11,10 @@ while (true)
 {
     PrintBoard(birdGame);
 
+    if (birdGame.GameWon())
+    {
+        break;
+    }
 
     while (true)
     {
@@ -33,11 +37,6 @@ while (true)
         {
             break;
         }
-    }
-
-    if (birdGame.GameWon())
-    {
-        break;
     }
 }
 
