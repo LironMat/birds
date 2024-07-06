@@ -41,13 +41,13 @@ while (true)
 }
 
 
-string BranchToString<T>(IList<T> branches, int branchIndex) where T : IList<int?>
+string BranchToString<T>(IList<T> branches, int branchIndex, string branchIndexPad) where T : IList<int?>
 {
     var birdChars = "0123456789abcdefghijklmnopqrstuvwxyz";
     var branch = branches[branchIndex];
-    var birdsString = string.Join("", branch.Where(b => b is not null).Select(b => birdChars[b.Value]));
+    var birdsString = string.Join("", branch.Select(b => b.HasValue ? birdChars[b.Value] : '_'));
 
-    return $"[{branchIndex}]:[{birdsString}]";
+    return $"[{branchIndex.ToString(branchIndexPad)}]:[{birdsString}]";
 }
 
 void PrintBoard(BirdsGame birdGame)
@@ -55,14 +55,15 @@ void PrintBoard(BirdsGame birdGame)
     Console.Clear();
 
     var _branches = birdGame.Branches;
+    var branchIndexPad = new string('0', (int)Math.Ceiling(Math.Log10(_branches.Count)));
 
     for (int i = 0; i < _branches.Count; i += 2)
     {
-        Console.Write(BranchToString(_branches, i));
+        Console.Write(BranchToString(_branches, i, branchIndexPad));
 
         if (i + 1 < _branches.Count)
         {
-            Console.Write($" {BranchToString(_branches, i + 1)}");
+            Console.Write($" {BranchToString(_branches, i + 1, branchIndexPad)}");
         }
 
         Console.WriteLine();
